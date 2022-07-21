@@ -14,23 +14,52 @@ html{
 /*---------------- START SCREEN && END SCREEN ----------------*/
 
 .transition_screen{
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100vh;
     justify-content: center;
     align-items: center;
-    background-image: url(https://wallpaperaccess.com/full/6319352.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
-h1{
-    padding-top: 10%;
-    line-height: 100%;
+.end{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(http://i.imgur.com/7ZHrijt.gif);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    z-index: -1;
+}
+
+.transition_screen h1{
+    line-height: 20%;
     font-family: 'Kanit', sans-serif;
     text-align: center;
     width: 100%;
     font-size: 90px;
+}
+
+h5{
+    font-family: 'Kanit', sans-serif;
+    font-size: 25px;
+    z-index: 2;
+    margin-top: -10px;
+}
+
+.metric_toggle{
+    display: flex;
+    width: 600px;
+    margin: 50px;
+}
+
+.metric_toggle button{
+    width: 250px;
+}
+
+.selected{
+    background-color: white;
+    color: black;
 }
 
 h2{
@@ -40,9 +69,23 @@ h2{
     font-size: 60px; 
 }
 
-.transition_screen button{
-    margin-top: 100px;
+.transition_screen h3{
+    font-family: 'Kanit', sans-serif;
+    text-align: center;
+    width: 100%;
+    font-size: 40px; 
+    background-color: green;
 }
+
+.credits{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 10px;
+}
+
+
 
 /*---------------- MANGA GAME SECTION ----------------*/
 
@@ -86,10 +129,11 @@ h2{
 }
 
 .manga_info h1{
+    line-height: 100%;
     width: 100%;
     text-align: center;
     font-family: 'Kanit', sans-serif;
-    font-size: 70px;
+    font-size: 60px;
     padding-bottom: 20px;
 }
 
@@ -127,10 +171,6 @@ h2{
     display: none;
 }
 
-.clicked h2{
-    font-size: 100px;
-}
-
 button{
     width: 45%;
     height: fit-content;
@@ -162,16 +202,13 @@ button:hover{
     transition: 1s ease;
 }
 
-#middle{
-    position: absolute;
-    color: black;
+#middle_circle h1{
     font-family: 'Kanit', sans-serif;
-    font-size: 50px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    transition: 1s ease;
+    color: black;
+    font-size: 60px;
+    padding-top: 6px;
+    padding-right:4px
+
 }
 
 .highscore{
@@ -188,12 +225,6 @@ button:hover{
     right: 0;
 }
 
-h5{
-    font-family: 'Kanit', sans-serif;
-    font-size: 25px;
-    z-index: 2;
-}
-
 .manga_box img{
     position: absolute;
     width: 97%;
@@ -203,11 +234,16 @@ h5{
 .overlay{
     position: absolute;
     right: 0;
-    opacity: 0.8;
+    opacity: 0.7;
     background-color: black;
     width: 100%;
     height: 100%;
     z-index: 1;
+}
+
+.transition_screen h5{
+    text-align: center;
+    margin-top: 100px;
 }
 
 /*should edit names and finalize animation*/
@@ -224,8 +260,8 @@ h5{
     0%{
         transform: translate(-50%, -50%) scale(1);
     }
-    20%{
-        transform: translate(-50%, -50%) scale(1.2);
+    60%{
+        transform: translate(-50%, -50%) scale(1.5);
     }
     100%{
         transform: translate(-50%, -50%) scale(0);
@@ -240,9 +276,81 @@ h5{
         transform: translate(-50%, -50%) scale(0);
     }
     80%{
-        transform: translate(-50%, -50%) scale(1.2);
+        transform: translate(-50%, -50%) scale(1.5);
     }
     100%{
         transform: translate(-50%, -50%) scale(1);
     }
+}
+
+
+.ani_metric_text{
+    width: 100%;
+    height: 115px;
+    text-align: center;   
+    font-family: 'Kanit', sans-serif;
+    font-size: 80px;
+    margin-top: -30px;
+    display: none;
+}
+
+.position_2 .ani_metric_text{
+    display: block;
+}
+
+.metric_text{
+    width: 100%;
+    height: 115px;
+    text-align: center;   
+    font-family: 'Kanit', sans-serif;
+    font-size: 80px;
+    margin-top: -30px;
+    display: none;
+}
+
+.position_0 .metric_text{
+    display: block;
+}
+
+.position_1 .metric_text{
+    display: block;
+}
+
+
+/*BACKGROUND TEST*/
+
+.background{
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    justify-content: center;
+}
+
+.background:nth-child(2) .mangaColumn:first-of-type{
+    margin-left: 100px;
+}
+
+.background .overlay{
+    height: 100%;
+    width: 100%;
+    opacity: .8;
+}
+
+.mangaColumn{
+    display: block;
+    width: fit-content;
+}
+
+.bManga{
+    width: 103px;
+    height: 155px;
+    display: block;
+    margin: 21px;
+    border-radius: 20px;
+}
+
+.flex{
+    display: flex;
 }
