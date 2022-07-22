@@ -313,7 +313,7 @@ function MangaColumn(props){
                 {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
                 {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
             </div>
-            <div className="mangaColumn" style={{marginTop: "-100px" }}>
+            <div className="mangaColumn">
             <img className="bManga" src={fetchImage()} alt="cover"/>
                 <img className="bManga" src={fetchImage()} alt="cover"/>
                 <img className="bManga" src={fetchImage()} alt="cover"/>
