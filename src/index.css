@@ -33,7 +33,9 @@ html{
 }
 
 .transition_screen h1{
-    line-height: 20%;
+    position: absolute;
+    top: 10%;
+    line-height: 100%;
     font-family: 'Kanit', sans-serif;
     text-align: center;
     width: 100%;
@@ -41,13 +43,16 @@ html{
 }
 
 h5{
+    position: absolute;
+    top: 25%;
     font-family: 'Kanit', sans-serif;
     font-size: 25px;
     z-index: 2;
-    margin-top: -10px;
 }
 
 .metric_toggle{
+    position: absolute;
+    top: 45%;
     display: flex;
     width: 600px;
     margin: 50px;
@@ -77,16 +82,33 @@ h2{
     background-color: green;
 }
 
+.transition_screen .button_container{
+    position: absolute;
+    top: 70%;
+}
+
 .credits{
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     margin: 10px;
+    text-align: center;
 }
 
+h4{
+    font-family: 'Kanit', sans-serif;
+    font-size: 25px;
+}
 
+.end h1{
+    font-size: 200px;
+}
 
+.end .flex{
+  position: absolute;  
+  top: 30%;
+}
 /*---------------- MANGA GAME SECTION ----------------*/
 
 
@@ -353,4 +375,139 @@ button:hover{
 
 .flex{
     display: flex;
+}
+
+.flex h2{
+    width: fit-content;
+    font-size: 60px;
+    padding: 50px;
+}
+
+.transition_screen .button_container{
+    flex-direction: column;
+}
+
+.transition_screen button{
+    margin-top: 30px;
+}
+
+.exit{
+    position: absolute;
+    right: 0;
+    top:0;
+    color: white;
+    font-size: 30px;
+    margin: 15px;
+    z-index: 3;
+    border: none;
+    width: fit-content;
+}
+
+.exit:hover{
+    opacity: .8;
+    background-color: transparent;
+    color: white;
+}
+
+@media screen and (max-width: 768px) {
+
+    .bManga{
+        width: 75%;
+        height: 13%;
+        margin: 10px;
+    }
+    
+    .transition_screen h1{
+        top: 20%;
+        font-size: 40px;
+        line-height: 100%;
+    }
+
+    .metric_toggle{
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .metric_toggle button{
+        margin-top: 10px;
+        font-size: 30px;
+        width: 50%;
+
+    }
+
+    .button_container button{
+        font-size: 40px;
+        width: 80%;
+        margin-top: 23px;
+    }
+
+    h5{
+        font-size: 20px;
+    }
+
+    .end{
+        background-size: 300% 100%;
+        background-position: 55% 0;
+    }
+
+    .end h2{
+        font-size: 35px;
+        padding: 10px;
+    }
+
+    .end .flex{
+        flex-direction: column;
+    }
+
+    /*Dealing with manga app*/
+
+    .manga_info h1{
+        font-size: 20px;
+    }
+
+    .manga_info h3:last-child{
+        margin-top: -10px;
+    }
+
+    .manga_info h3{
+        font-size: 15px;
+    }
+
+    .button_container{
+        flex-direction: column;
+        margin-top: 0px;
+    }
+
+    .manga_info .button_container{
+        height: 65px;
+    }
+
+    .manga_info .button_container button{
+        font-size: 15px;
+        width: 80%;
+        margin-top: 0px;
+    }
+
+    .ani_metric_text{
+        font-size: 30px;
+        margin-top: 0px;
+        height: 65px;
+    }
+
+    .metric_text{
+        font-size: 30px;
+        margin-top: 0px;
+        height: 65px;
+    }
+
+    #middle_circle{
+        width: 50px;
+        height: 50px;
+    }
+
+    #middle_circle h1{
+        font-size: 30px;
+        margin-top: -3px;
+        margin-left: 2px;
+    }
 }

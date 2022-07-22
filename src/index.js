@@ -1,12 +1,11 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import './index.css'
-import data from "./manga.js"
-//Things to do
-//Finalize design (font size, background Images)
-//publish website
-//Add credits
-//Change members into rating
+import data from "./manga_data/manga.js"
+//TODO
+//Work on game over screen
+//work on mobile view
+
 
 //% returns negative numbers
 function mod(n, m) {
@@ -14,10 +13,12 @@ function mod(n, m) {
 }
 
 class Manga{
-    constructor(name, memberStr, members, image) {
+    constructor(name, memberStr, members, scoreStr, score, image) {
         this.name = name
         this.memberStr = memberStr
         this.members = members
+        this.scoreStr = scoreStr
+        this.score = score
         this.image = image
     }
 }
@@ -29,48 +30,52 @@ function fetchManga(){
             data.mList[r].name, 
             data.mList[r].members,
             //data stores members as a string with commas
-            parseFloat((data.mList[r].members).replace(/,/g, '')), 
+            parseFloat((data.mList[r].members).replace(/,/g, '')),
+            data.mList[r].score,
+            parseFloat((data.mList[r].score).replace(/\./g, '')),
             data.mList[r].image
         )
     )
 }
 
 function StartScreen(props){
-    const [metricToggle, setMetricToggle] = React.useState(false)
 
     return (
         <div className="transition_screen">
             <MangaWallpaper/>
-            <h1>Manga Higher Or Lower</h1>
-            <h5>A game based off The Higher or Lower Game.
+            <h1>Manga <br></br> Higher Or Lower</h1>
+            <h5>Based off The Higher or Lower Game.
                  <br></br> 
                 Made in React with data web scraped from MyAnimeList in July 2022.
             </h5>
             <div className="metric_toggle">
-                <button className={metricToggle ? "" : "selected"} onClick={() => setMetricToggle(false)}>
+                <button className={props.metricToggle ? "" : "selected"} onClick={() => props.setMetricToggle(false)}>
                     Popularity
                 </button>
-                <button className={metricToggle ? "selected" : ""} onClick={() =>  setMetricToggle(true)}>
+                <button className={props.metricToggle ? "selected" : ""} onClick={() => props.setMetricToggle(true)}>
                     Score
                 </button>
             </div>
             <div className="button_container">
                 <button onClick={props.handleClick}>Start Game</button>
             </div>
-            <h5 className="credits">Made by Gaurav Sharma</h5>
+            <h4 className="credits">Made by Gaurav Sharma</h4>
         </div>
     )
 }
 
 function EndScreen(props) {
     return (
-        <div className="transition_screen">
+        <div className="transition_screen end">
             <div className="end"><div className="overlay"></div></div>
             <h1>Game Over</h1>
-            <h2>Final Score: {props.score}</h2>
-            <h2>High Score: {props.highScore}</h2>
+            <div className="flex">
+                <h2>Final Score: {props.score}</h2>
+                <h2>High Score: {props.highScore}</h2>
+            </div>
             <div className="button_container">
-                <button onClick={props.handleClick}>Replay</button>
+                <button onClick={props.startGame}>Replay</button>
+                <button onClick={props.returnToMenu}>Menu</button>
             </div>
         </div>
     )
@@ -88,12 +93,18 @@ function MangaDisplay(props) {
 
     function updateAniMembers(counter, higherClicked){
         if (counter < 100){
-            setAniMembers(prevState => prevState + Math.round(props.mList.members/100))
+            if (props.metricToggle){
+                setAniMembers(prevState => prevState + Math.round(props.mList.score/100))
+            }
+            else{
+                setAniMembers(prevState => prevState + Math.round(props.mList.members/100))
+            }
             setTimeout(() => updateAniMembers(counter += 1, higherClicked), 5)
         }
         else{
-            setAniMembers(props.mList.members)
-            higherClicked ? props.handleHigher() : props.handleLower()
+            props.metricToggle ? setAniMembers(props.mList.score) : setAniMembers(props.mList.members)
+            higherClicked ? props.handleButtons(true) : props.handleButtons(false)
+            //higherClicked ? props.handleHigher() : props.handleLower()
             setTimeout(reset, 1000)
         }
     }
@@ -104,6 +115,9 @@ function MangaDisplay(props) {
     }
 
     function commas(x) {
+        if (props.metricToggle){
+            return x.toString().slice(0,1) + '.' +  x.toString().slice(1)
+        }
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
     
@@ -113,31 +127,26 @@ function MangaDisplay(props) {
             <img src={props.mList.image} alt={props.mList.name}/>
             <div className="manga_info">
                 <h1>{props.mList.name}</h1>
-                <h3>has</h3>
+                <h3>{props.metricToggle ? "has a" : "has"}</h3>
                 {clicked && <div className="ani_metric_text">{commas(aniMembers)}</div>}
-                <div className="metric_text">{props.mList.memberStr}</div>
+                <div className="metric_text">
+                    {props.metricToggle ? props.mList.scoreStr : props.mList.memberStr}
+                </div>
                 {!clicked && <div className="button_container">
                     <button onClick={() => handleClick(true)}>Higher</button>
                     <button onClick={() => handleClick(false)}>Lower</button>
                 </div> }
-                <h3>Members</h3>
+                <h3 className="diff">{props.metricToggle ? "score" : "members"}</h3>
             </div>
         </div>
     )
 }
 
 function MangaContainer(props) {
-    //Might be possible to combine order and stylePos
-    //order should be turned into a modular var not an arr
     const [order, setOrder] = React.useState([0,1,2,3])
     const [stylePos, setStylePos] = React.useState(["manga_box position_0", "manga_box position_1", "manga_box position_2", "manga_box position_3"])
     const [mList, setMList] = React.useState([{}, fetchManga(), fetchManga(), {}])
-
-
-    //still wip
     const [animateButton, setAnimateButton] = React.useState(false)
-
-    //still wip
 
     function determineNewManga(prevMList){
         let mangaArr = prevMList
@@ -158,13 +167,24 @@ function MangaContainer(props) {
         setTimeout(handleLogic, 1000)
     }
 
-    //See if you can put this into one button
-    function higherPressed(){
-        mList[order[1]].members <= mList[order[2]].members ? handleCorrect() : props.handleLoss()
-    }
+    function handleButtons(higherButton){
+        if (!props.metricToggle){
+            if (higherButton){
+                mList[order[1]].members <= mList[order[2]].members ? handleCorrect() : props.handleLoss()
+            }
+            else {
+                mList[order[1]].members >= mList[order[2]].members ? handleCorrect() : props.handleLoss()
+            }
+        }
+        else{
+            if (higherButton){
+                mList[order[1]].score <= mList[order[2]].score ? handleCorrect() : props.handleLoss()
+            }
+            else {
+                mList[order[1]].score >= mList[order[2]].score ? handleCorrect() : props.handleLoss()
+            }
+        }
 
-    function lowerPressed(){
-        mList[order[1]].members >= mList[order[2]].members ? handleCorrect() : props.handleLoss()
     }
 
     return (
@@ -172,41 +192,42 @@ function MangaContainer(props) {
             <MangaDisplay 
                 id={0} 
                 mList = {mList[0]}
-                handleHigher = {higherPressed}
-                handleLower = {lowerPressed}
                 style = {stylePos[0]}
                 current = {order[1]}
+                handleButtons = {handleButtons}
+                metricToggle={props.metricToggle}
             />
             <MangaDisplay 
                 id={1} 
                 mList = {mList[1]}
-                handleHigher = {higherPressed}
-                handleLower = {lowerPressed}
                 style = {stylePos[1]}
                 current = {order[1]}
+                handleButtons = {handleButtons}
+                metricToggle={props.metricToggle}
             />
             <MangaDisplay 
                 id={2} 
                 mList = {mList[2]}
-                handleHigher = {higherPressed}
-                handleLower = {lowerPressed}
                 style = {stylePos[2]}
                 current = {order[1]}
+                handleButtons = {handleButtons}
+                metricToggle={props.metricToggle}
             />
             <MangaDisplay 
                 id={3} 
                 mList = {mList[3]}
-                handleHigher = {higherPressed}
-                handleLower = {lowerPressed}
                 style = {stylePos[3]}
                 current = {order[1]}
+                handleButtons = {handleButtons}
+                metricToggle={props.metricToggle}
             />
             
+            <button className="exit" onClick={props.handleLoss}>{"\u2715"}</button>
             <div id="middle_circle" className={animateButton ? "toDisappear" : "toAppear"}>
                <h1>VS</h1> 
             </div>
-            <h5 className="highscore">High Score: {props.highScore}</h5>
-            <h5 className="score">Score: {props.score}</h5>
+            <h4 className="highscore">High Score: {props.highScore}</h4>
+            <h4 className="score">Score: {props.score}</h4>
         </div>
     )
 }
@@ -215,18 +236,19 @@ function App(){
     const [appState, setAppState] = React.useState(0)
     const [score, setScore] = React.useState(0)
     const [highScore, setHighScore] = React.useState(0)
-
+    const [metricToggle, setMetricToggle] = React.useState(false)
+    
     function startGame(){
         setScore(0)
         setAppState(1)
     }
 
-    function handleLoss(){
-        setTimeout(gameOver, 1000)
+    function returnToMenu(){
+        setAppState(0)
     }
 
-    function gameOver(){
-        setAppState(2)
+    function handleLoss(){
+        setTimeout(() => setAppState(2), 1000)
     }
 
     function updateScore(){
@@ -236,9 +258,9 @@ function App(){
 
     return(
         <div>
-            {appState === 0 && <StartScreen handleClick={startGame}/>}
-            {appState === 1 && <MangaContainer score={score} highScore={highScore} handleLoss={handleLoss} handleScore={updateScore}/>}
-            {appState === 2 && <EndScreen score={score} highScore={highScore} handleClick={startGame}/>}
+            {appState === 0 && <StartScreen metricToggle={metricToggle} setMetricToggle={setMetricToggle} handleClick={startGame} />}
+            {appState === 1 && <MangaContainer metricToggle={metricToggle} score={score} highScore={highScore} handleLoss={handleLoss} handleScore={updateScore}/>}
+            {appState === 2 && <EndScreen score={score} highScore={highScore} startGame={startGame} returnToMenu={returnToMenu}/>}
         </div>
     )
 }
@@ -247,35 +269,58 @@ ReactDOM.render(<App />, document.getElementById("root"))
 
 
 function MangaWallpaper(){
+    const [width, setWidth] = React.useState(window.innerWidth);
+
+    function handleWindowSizeChange() {
+        setWidth(window.innerWidth);
+    }
+
+    React.useEffect(() => {
+        window.addEventListener('resize', handleWindowSizeChange);
+        return () => {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        }
+    }, []);
+    const isMobile = width <= 768;
+
     return (
         <div className="background">
             <div className="overlay"></div>
-            <MangaColumn/>
-            <MangaColumn/>
-            <MangaColumn/>
-            <MangaColumn/>
-            <MangaColumn/>
+            <MangaColumn isMobile = {isMobile}/>
+            <MangaColumn isMobile = {isMobile}/>
+            {!isMobile && <MangaColumn/>}
+            {!isMobile && <MangaColumn/>}
+            {!isMobile && <MangaColumn/>}
 
         </div>
     )
 }
 
-function MangaColumn(){
+function MangaColumn(props){
+
+    function fetchImage(){
+        return data.mList[Math.round(Math.random() * 999)].image
+    }
+
     return(
         <div className="flex">
             <div className="mangaColumn">
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
+                <img className="bManga" src={fetchImage()} alt="cover"/>
+                <img className="bManga" src={fetchImage()} alt="cover"/>
+                <img className="bManga" src={fetchImage()} alt="cover"/>
+                <img className="bManga" src={fetchImage()} alt="cover"/>
+                <img className="bManga" src={fetchImage()} alt="cover"/>
+                {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
+                {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
             </div>
             <div className="mangaColumn" style={{marginTop: "-100px" }}>
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
-                <img className="bManga" src={data.mList[Math.round(Math.random() * 999)].image} alt="cover"/>
+            <img className="bManga" src={fetchImage()} alt="cover"/>
+                <img className="bManga" src={fetchImage()} alt="cover"/>
+                <img className="bManga" src={fetchImage()} alt="cover"/>
+                <img className="bManga" src={fetchImage()} alt="cover"/>
+                <img className="bManga" src={fetchImage()} alt="cover"/>
+                {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
+                {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
             </div>
         </div>
 
