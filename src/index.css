@@ -9,45 +9,84 @@
 html{
     background-color: black;
     overflow: hidden;
-}
-
-/*---------------- START SCREEN && END SCREEN ----------------*/
-
-.transition_screen{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-}
-
-.end{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: url(http://i.imgur.com/7ZHrijt.gif);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    z-index: -1;
-}
-
-.transition_screen h1{
-    position: absolute;
-    top: 10%;
-    line-height: 100%;
     font-family: 'Kanit', sans-serif;
-    text-align: center;
+}
+
+h1{
     width: 100%;
-    font-size: 90px;
+    text-align: center;
+    font-size: 60px;
+    line-height: 100%;
+}
+
+h2{
+    width: 100%;
+    text-align: center;
+    font-size: 60px; 
+}
+
+h3{
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+}
+
+h4{
+    font-size: 25px;
 }
 
 h5{
     position: absolute;
     top: 25%;
-    font-family: 'Kanit', sans-serif;
     font-size: 25px;
     z-index: 2;
+}
+
+button{
+    width: 45%;
+    height: fit-content;
+    background-color: transparent;
+    font-family: 'Kanit', sans-serif;
+    font-size: 40px;
+    border: 2px solid white;
+    border-radius: 50px;
+    margin: auto;
+    transition: 0.3s ease;
+}
+
+button:hover{
+    background-color: white;
+    color: black;
+}
+/*---------------- START SCREEN & END SCREEN ----------------*/
+
+.transition_screen{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+.transition_screen h1{
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    font-size: 90px;
+}
+
+.transition_screen h5{
+    text-align: center;
+    margin-top: 100px;
+}
+
+.transition_screen .button_container{
+    flex-direction: column;
+    position: absolute;
+    top: 70%;
+}
+
+.transition_screen button{
+    margin-top: 30px;
 }
 
 .metric_toggle{
@@ -67,26 +106,6 @@ h5{
     color: black;
 }
 
-h2{
-    font-family: 'Kanit', sans-serif;
-    text-align: center;
-    width: 100%;
-    font-size: 60px; 
-}
-
-.transition_screen h3{
-    font-family: 'Kanit', sans-serif;
-    text-align: center;
-    width: 100%;
-    font-size: 40px; 
-    background-color: green;
-}
-
-.transition_screen .button_container{
-    position: absolute;
-    top: 70%;
-}
-
 .credits{
     position: absolute;
     bottom: 0;
@@ -96,9 +115,14 @@ h2{
     text-align: center;
 }
 
-h4{
-    font-family: 'Kanit', sans-serif;
-    font-size: 25px;
+.end{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(http://i.imgur.com/7ZHrijt.gif);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    z-index: -1;
 }
 
 .end h1{
@@ -109,8 +133,18 @@ h4{
   position: absolute;  
   top: 30%;
 }
-/*---------------- MANGA GAME SECTION ----------------*/
 
+.flex{
+    display: flex;
+}
+
+.flex h2{
+    width: fit-content;
+    font-size: 60px;
+    padding: 50px;
+}
+
+/*---------------- MANGA GAME ----------------*/
 
 .container{
     display: flex;
@@ -125,126 +159,6 @@ h4{
     position: absolute;
     transform: translateX(200%);
     transition: 1s ease;
-}
-
-.position_0{
-    opacity: 0;
-    transform: translateX(-100%);
-}
-
-.position_1{
-    transform: translateX(0%);
-}
-
-.position_2{
-    transform: translateX(100%);
-}
-
-.position_3{
-    opacity: 0;
-}
-
-.manga_info{
-    display: block;
-    width: 60%;
-    z-index: 2;
-}
-
-.manga_info h1{
-    line-height: 100%;
-    width: 100%;
-    text-align: center;
-    font-family: 'Kanit', sans-serif;
-    font-size: 60px;
-    padding-bottom: 20px;
-}
-
-.manga_info h2{
-    width: 100%;
-    height: 115px;
-    text-align: center;   
-    font-family: 'Kanit', sans-serif;
-    font-size: 80px;
-    margin-top: -30px;
-}
-
-.manga_info h3{
-    width: 100%;
-    text-align: center;
-    font-family: 'Kanit', sans-serif;
-    font-size: 40px;
-    margin-top: -20px;
-}
-
-.button_container{
-    width: 100%;
-    height: 115px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -30px;
-}
-
-.position_0 .button_container{
-    display: none;
-}
-
-.position_1 .button_container{
-    display: none;
-}
-
-button{
-    width: 45%;
-    height: fit-content;
-    background-color: transparent;
-    font-family: 'Kanit', sans-serif;
-    font-size: 40px;
-    border: 2px solid white;
-    border-radius: 50px;
-    margin: auto;
-    transition: 0.3s ease;
-}
-
-button:hover{
-    background-color: white;
-    color: black;
-}
-
-#middle_circle{
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    background-color: white;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: 1s ease;
-}
-
-#middle_circle h1{
-    font-family: 'Kanit', sans-serif;
-    color: black;
-    font-size: 60px;
-    padding-top: 6px;
-    padding-right:4px
-
-}
-
-.highscore{
-    padding: 10px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
-
-.score{
-    padding: 10px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
 }
 
 .manga_box img{
@@ -263,18 +177,152 @@ button:hover{
     z-index: 1;
 }
 
-.transition_screen h5{
-    text-align: center;
-    margin-top: 100px;
+.manga_info{
+    display: block;
+    width: 60%;
+    z-index: 2;
 }
 
-/*should edit names and finalize animation*/
+.manga_info h1{
+    padding-bottom: 20px;
+}
 
-.toDisappear{
+.manga_info h2{
+    height: 115px;
+    font-size: 80px;
+    margin-top: -30px;
+}
+
+.manga_info h3{
+    margin-top: -20px;
+}
+
+.button_container{
+    width: 100%;
+    height: 115px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -30px;
+}
+
+.ani_metric_text{
+    width: 100%;
+    height: 115px;
+    text-align: center;   
+    font-size: 80px;
+    margin-top: -30px;
+    display: none;
+}
+
+.metric_text{
+    width: 100%;
+    height: 115px;
+    text-align: center;   
+    font-size: 80px;
+    margin-top: -30px;
+    display: none;
+}
+
+.highscore{
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.score{
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.exit{
+    position: absolute;
+    right: 0;
+    top:0;
+    color: white;
+    font-size: 30px;
+    margin: 15px;
+    z-index: 3;
+    border: none;
+    width: fit-content;
+}
+
+.exit:hover{
+    opacity: .8;
+    background-color: transparent;
+    color: white;
+}
+
+/*---------------- MANGA BOX POSITIONS ----------------*/
+
+.pos_0{
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.pos_0 .metric_text{
+    display: block;
+}
+
+.pos_0 .button_container{
+    display: none;
+}
+
+.pos_1{
+    transform: translateX(0%);
+}
+
+.pos_1 .metric_text{
+    display: block;
+}
+
+.pos_1 .button_container{
+    display: none;
+}
+
+.pos_2{
+    transform: translateX(100%);
+}
+
+.pos_2 .ani_metric_text{
+    display: block;
+}
+
+.pos_3{
+    opacity: 0;
+}
+
+/*---------------- VS CIRCLE ----------------*/
+
+#middle_circle{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    background-color: white;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 1s ease;
+}
+
+#middle_circle h1{
+    color: black;
+    padding-top: 20px;
+    padding-right: 4px;
+
+}
+
+.to_disappear{
     animation: disappear 1s forwards;
 }
 
-.toAppear{
+.to_appear{
     animation: appear 1s forwards;
 }
 
@@ -305,41 +353,7 @@ button:hover{
     }
 }
 
-
-.ani_metric_text{
-    width: 100%;
-    height: 115px;
-    text-align: center;   
-    font-family: 'Kanit', sans-serif;
-    font-size: 80px;
-    margin-top: -30px;
-    display: none;
-}
-
-.position_2 .ani_metric_text{
-    display: block;
-}
-
-.metric_text{
-    width: 100%;
-    height: 115px;
-    text-align: center;   
-    font-family: 'Kanit', sans-serif;
-    font-size: 80px;
-    margin-top: -30px;
-    display: none;
-}
-
-.position_0 .metric_text{
-    display: block;
-}
-
-.position_1 .metric_text{
-    display: block;
-}
-
-
-/*BACKGROUND TEST*/
+/*---------------- MANGA WALLPAPER ----------------*/
 
 .background{
     display: flex;
@@ -350,22 +364,20 @@ button:hover{
     justify-content: center;
 }
 
-.background:nth-child(2) .mangaColumn:first-of-type{
+.background:nth-child(2) .manga_column:first-of-type{
     margin-left: 100px;
 }
 
 .background .overlay{
-    height: 100%;
-    width: 100%;
     opacity: .8;
 }
 
-.mangaColumn{
+.manga_column{
     display: block;
     width: fit-content;
 }
 
-.bManga{
+.bg_manga{
     width: 103px;
     height: 155px;
     display: block;
@@ -373,54 +385,20 @@ button:hover{
     border-radius: 20px;
 }
 
-.flex{
-    display: flex;
-}
-
-.flex h2{
-    width: fit-content;
-    font-size: 60px;
-    padding: 50px;
-}
-
-.transition_screen .button_container{
-    flex-direction: column;
-}
-
-.transition_screen button{
-    margin-top: 30px;
-}
-
-.exit{
-    position: absolute;
-    right: 0;
-    top:0;
-    color: white;
-    font-size: 30px;
-    margin: 15px;
-    z-index: 3;
-    border: none;
-    width: fit-content;
-}
-
-.exit:hover{
-    opacity: .8;
-    background-color: transparent;
-    color: white;
-}
+/*---------------- MOBILE VIEW ----------------*/
 
 @media screen and (max-width: 768px) {
 
-    .bManga{
-        width: 75%;
-        height: 13%;
-        margin: 10px;
-    }
+    /*------ START & END SCREEN ------*/
     
     .transition_screen h1{
         top: 20%;
         font-size: 40px;
         line-height: 100%;
+    }
+
+    h5{
+        font-size: 20px;
     }
 
     .metric_toggle{
@@ -435,14 +413,15 @@ button:hover{
 
     }
 
+    .button_container{
+        flex-direction: column;
+        margin-top: 0px;
+    }
+
     .button_container button{
         font-size: 40px;
         width: 80%;
         margin-top: 23px;
-    }
-
-    h5{
-        font-size: 20px;
     }
 
     .end{
@@ -459,23 +438,22 @@ button:hover{
         flex-direction: column;
     }
 
-    /*Dealing with manga app*/
+    /*------ MANGA GAME ------*/
+
+    .manga_box img{
+        width: 90%;
+    }
 
     .manga_info h1{
         font-size: 20px;
-    }
-
-    .manga_info h3:last-child{
-        margin-top: -10px;
     }
 
     .manga_info h3{
         font-size: 15px;
     }
 
-    .button_container{
-        flex-direction: column;
-        margin-top: 0px;
+    .manga_info h3:last-child{
+        margin-top: -10px;
     }
 
     .manga_info .button_container{
@@ -507,7 +485,13 @@ button:hover{
 
     #middle_circle h1{
         font-size: 30px;
-        margin-top: -3px;
+        margin-top: -9px;
         margin-left: 2px;
+    }
+
+    .bg_Manga{
+        width: 75%;
+        height: 13%;
+        margin: 10px;
     }
 }

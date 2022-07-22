@@ -2,22 +2,18 @@ import React from "react"
 import ReactDOM from "react-dom"
 import './index.css'
 import mList from "./manga_data/manga.js"
-//TODO
-//Work on game over screen
-//work on mobile view
 
-
-//% returns negative numbers
+//default mod returns negative num
 function mod(n, m) {
     return ((n % m) + m) % m
 }
 
 class Manga{
-    constructor(name, memberStr, members, scoreStr, score, image) {
+    constructor(name, memberStr, scoreStr, members, score, image) {
         this.name = name
         this.memberStr = memberStr
-        this.members = members
         this.scoreStr = scoreStr
+        this.members = members
         this.score = score
         this.image = image
     }
@@ -29,17 +25,71 @@ function fetchManga(){
         new Manga( 
             mList[r].name, 
             mList[r].members,
-            //data stores members as a string with commas
-            parseFloat((mList[r].members).replace(/,/g, '')),
             mList[r].score,
+            //scraped data stores members & score as strings
+            parseFloat((mList[r].members).replace(/,/g, '')),
             parseFloat((mList[r].score).replace(/\./g, '')),
             mList[r].image
         )
     )
 }
 
-function StartScreen(props){
+function MangaColumn(props){
+    function fetchImage(){
+        return mList[Math.round(Math.random() * 999)].image
+    }
 
+    return(
+        <div className="flex">
+            <div className="manga_column">
+                <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                {props.isMobile && <img className="bg_manga" src={fetchImage()} alt="cover"/>}
+            </div>
+            <div className="manga_column" style={{marginTop: props.isMobile ? "" : "-100px"}}>
+            <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                <img className="bg_manga" src={fetchImage()} alt="cover"/>
+                {props.isMobile && <img className="bg_manga" src={fetchImage()} alt="cover"/>}
+            </div>
+        </div>
+
+    )
+}
+
+function MangaWallpaper(){
+    const [width, setWidth] = React.useState(window.innerWidth);
+    const isMobile = (width <= 768);
+
+    function handleWindowSizeChange() {
+        setWidth(window.innerWidth);
+    }
+
+    React.useEffect(() => {
+        window.addEventListener('resize', handleWindowSizeChange);
+        return () => {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        }
+    }, []);
+
+    return (
+        <div className="background">
+            <div className="overlay"></div>
+            <MangaColumn isMobile = {isMobile}/>
+            <MangaColumn isMobile = {isMobile}/>
+            {!isMobile && <MangaColumn/>}
+            {!isMobile && <MangaColumn/>}
+            {!isMobile && <MangaColumn/>}
+        </div>
+    )
+}
+
+function StartScreen(props){
     return (
         <div className="transition_screen">
             <MangaWallpaper/>
@@ -82,53 +132,47 @@ function EndScreen(props) {
 }
 
 function MangaDisplay(props) {
-    //var that animates, clicked shows components
-    const [aniMembers, setAniMembers] = React.useState(0)
+    //var that animates metric, clicked shows components
+    const [aniMetric, setAniMetric] = React.useState(0)
     const [clicked, setClicked] = React.useState(false)
 
     function reset(){
         setClicked(false)
-        setAniMembers(0)
+        setAniMetric(0)
     }
 
-    function updateAniMembers(counter, higherClicked){
+    var animate = (metric) => setAniMetric(prevState => prevState + Math.round(metric/100))
+
+    function updateAniMetric(counter, higherClicked){
         if (counter < 100){
-            if (props.metricToggle){
-                setAniMembers(prevState => prevState + Math.round(props.mList.score/100))
-            }
-            else{
-                setAniMembers(prevState => prevState + Math.round(props.mList.members/100))
-            }
-            setTimeout(() => updateAniMembers(counter += 1, higherClicked), 5)
+            props.metricToggle ? animate(props.mList.score) : animate(props.mList.members)
+            setTimeout(() => updateAniMetric(counter += 1, higherClicked), 5)
         }
         else{
-            props.metricToggle ? setAniMembers(props.mList.score) : setAniMembers(props.mList.members)
+            props.metricToggle ? setAniMetric(props.mList.score) : setAniMetric(props.mList.members)
             higherClicked ? props.handleButtons(true) : props.handleButtons(false)
-            //higherClicked ? props.handleHigher() : props.handleLower()
             setTimeout(reset, 1000)
         }
     }
 
     function handleClick(higherClicked){
         setClicked(true)
-        updateAniMembers(0, higherClicked)
+        updateAniMetric(0, higherClicked)
     }
 
-    function commas(x) {
-        if (props.metricToggle){
-            return x.toString().slice(0,1) + '.' +  x.toString().slice(1)
-        }
+    function interpret(x) {
+        if (props.metricToggle) return x.toString().slice(0,1) + '.' +  x.toString().slice(1)
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
     
     return (
-        <div id={props.id} className={props.style}>
+        <div id={props.id} className={props.style.concat(" manga_box")}>
             <div className="overlay"></div>
             <img src={props.mList.image} alt={props.mList.name}/>
             <div className="manga_info">
                 <h1>{props.mList.name}</h1>
                 <h3>{props.metricToggle ? "has a" : "has"}</h3>
-                {clicked && <div className="ani_metric_text">{commas(aniMembers)}</div>}
+                {clicked && <div className="ani_metric_text">{interpret(aniMetric)}</div>}
                 <div className="metric_text">
                     {props.metricToggle ? props.mList.scoreStr : props.mList.memberStr}
                 </div>
@@ -144,7 +188,7 @@ function MangaDisplay(props) {
 
 function MangaContainer(props) {
     const [order, setOrder] = React.useState([0,1,2,3])
-    const [stylePos, setStylePos] = React.useState(["manga_box position_0", "manga_box position_1", "manga_box position_2", "manga_box position_3"])
+    const [stylePos, setStylePos] = React.useState(["pos_0", "pos_1", "pos_2", "pos_3"])
     const [mList, setMList] = React.useState([{}, fetchManga(), fetchManga(), {}])
     const [animateButton, setAnimateButton] = React.useState(false)
 
@@ -167,24 +211,13 @@ function MangaContainer(props) {
         setTimeout(handleLogic, 1000)
     }
 
-    function handleButtons(higherButton){
-        if (!props.metricToggle){
-            if (higherButton){
-                mList[order[1]].members <= mList[order[2]].members ? handleCorrect() : props.handleLoss()
-            }
-            else {
-                mList[order[1]].members >= mList[order[2]].members ? handleCorrect() : props.handleLoss()
-            }
-        }
-        else{
-            if (higherButton){
-                mList[order[1]].score <= mList[order[2]].score ? handleCorrect() : props.handleLoss()
-            }
-            else {
-                mList[order[1]].score >= mList[order[2]].score ? handleCorrect() : props.handleLoss()
-            }
-        }
+    function checkMetric(){
+        if (props.metricToggle) return (mList[order[1]].score <= mList[order[2]].score)
+        return (mList[order[1]].members <= mList[order[2]].members)
+    }
 
+    function handleButtons(higherButton){
+        higherButton ? (checkMetric() ? handleCorrect() : props.handleLoss()) : (checkMetric() ? props.handleLoss() : handleCorrect())
     }
 
     return (
@@ -223,8 +256,8 @@ function MangaContainer(props) {
             />
             
             <button className="exit" onClick={props.handleLoss}>{"\u2715"}</button>
-            <div id="middle_circle" className={animateButton ? "toDisappear" : "toAppear"}>
-               <h1>VS</h1> 
+            <div id="middle_circle" className={animateButton ? "to_disappear" : "to_appear"}>
+                <h1>VS</h1> 
             </div>
             <h4 className="highscore">High Score: {props.highScore}</h4>
             <h4 className="score">Score: {props.score}</h4>
@@ -247,6 +280,7 @@ function App(){
         setAppState(0)
     }
 
+    //delay needed for incrementing metric animation to finish
     function handleLoss(){
         setTimeout(() => setAppState(2), 1000)
     }
@@ -266,63 +300,3 @@ function App(){
 }
 
 ReactDOM.render(<App />, document.getElementById("root"))
-
-
-function MangaWallpaper(){
-    const [width, setWidth] = React.useState(window.innerWidth);
-
-    function handleWindowSizeChange() {
-        setWidth(window.innerWidth);
-    }
-
-    React.useEffect(() => {
-        window.addEventListener('resize', handleWindowSizeChange);
-        return () => {
-            window.removeEventListener('resize', handleWindowSizeChange);
-        }
-    }, []);
-    const isMobile = width <= 768;
-
-    return (
-        <div className="background">
-            <div className="overlay"></div>
-            <MangaColumn isMobile = {isMobile}/>
-            <MangaColumn isMobile = {isMobile}/>
-            {!isMobile && <MangaColumn/>}
-            {!isMobile && <MangaColumn/>}
-            {!isMobile && <MangaColumn/>}
-
-        </div>
-    )
-}
-
-function MangaColumn(props){
-
-    function fetchImage(){
-        return mList[Math.round(Math.random() * 999)].image
-    }
-
-    return(
-        <div className="flex">
-            <div className="mangaColumn">
-                <img className="bManga" src={fetchImage()} alt="cover"/>
-                <img className="bManga" src={fetchImage()} alt="cover"/>
-                <img className="bManga" src={fetchImage()} alt="cover"/>
-                <img className="bManga" src={fetchImage()} alt="cover"/>
-                <img className="bManga" src={fetchImage()} alt="cover"/>
-                {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
-                {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
-            </div>
-            <div className="mangaColumn" style={{marginTop: props.isMobile ? "" : "-100px"}}>
-            <img className="bManga" src={fetchImage()} alt="cover"/>
-                <img className="bManga" src={fetchImage()} alt="cover"/>
-                <img className="bManga" src={fetchImage()} alt="cover"/>
-                <img className="bManga" src={fetchImage()} alt="cover"/>
-                <img className="bManga" src={fetchImage()} alt="cover"/>
-                {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
-                {props.isMobile && <img className="bManga" src={fetchImage()} alt="cover"/>}
-            </div>
-        </div>
-
-    )
-}
