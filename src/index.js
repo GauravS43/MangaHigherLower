@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import './index.css'
-import data from "./manga_data/manga.js"
+import mList from "./manga_data/manga.js"
 //TODO
 //Work on game over screen
 //work on mobile view
@@ -27,13 +27,13 @@ function fetchManga(){
     let r = Math.round(Math.random() * 999)
     return (
         new Manga( 
-            data.mList[r].name, 
-            data.mList[r].members,
+            mList[r].name, 
+            mList[r].members,
             //data stores members as a string with commas
-            parseFloat((data.mList[r].members).replace(/,/g, '')),
-            data.mList[r].score,
-            parseFloat((data.mList[r].score).replace(/\./g, '')),
-            data.mList[r].image
+            parseFloat((mList[r].members).replace(/,/g, '')),
+            mList[r].score,
+            parseFloat((mList[r].score).replace(/\./g, '')),
+            mList[r].image
         )
     )
 }
@@ -299,7 +299,7 @@ function MangaWallpaper(){
 function MangaColumn(props){
 
     function fetchImage(){
-        return data.mList[Math.round(Math.random() * 999)].image
+        return mList[Math.round(Math.random() * 999)].image
     }
 
     return(
