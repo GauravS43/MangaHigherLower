@@ -1,8 +1,8 @@
 # Manga Higher Or Lower
 
-## https://mangahigherlower.netlify.app/
-
 Test your **manga Knowledge** in this website. Choose which of two randomly selected manga has the higher popularity or rating based on MyAnimeList users.
+
+## https://mangahigherlower.netlify.app/
 
 Made in **React** with data web scraped from _MyAnimeList_ in July 2022
 Based off the higher lower game (http://www.higherlowergame.com/)
