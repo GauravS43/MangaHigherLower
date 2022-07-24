@@ -9,18 +9,25 @@ function mod(n, m) {
 }
 
 class Manga{
-    constructor(name, memberStr, scoreStr, members, score, image) {
+    constructor(name, memberStr, scoreStr, members, score, image, databaseID) {
         this.name = name
         this.memberStr = memberStr
         this.scoreStr = scoreStr
         this.members = members
         this.score = score
         this.image = image
+        this.databaseID = databaseID
     }
 }
 
+let fetchedManga = []
+
 function fetchManga(){
-    let r = Math.round(Math.random() * 999)
+    let r = 0
+    do {
+        r = Math.round(Math.random() * 1999)
+    } while (fetchedManga.includes(r))
+    fetchedManga.push(r)
     return (
         new Manga( 
             mList[r].name, 
@@ -29,14 +36,15 @@ function fetchManga(){
             //scraped data stores members & score as strings
             parseFloat((mList[r].members).replace(/,/g, '')),
             parseFloat((mList[r].score).replace(/\./g, '')),
-            mList[r].image
+            mList[r].image,
+            mList[r].databaseID
         )
     )
 }
 
 function MangaColumn(props){
     function fetchImage(){
-        return mList[Math.round(Math.random() * 999)].image
+        return mList[Math.round(Math.random() * 500)].image
     }
 
     return(
@@ -115,10 +123,17 @@ function StartScreen(props){
 }
 
 function EndScreen(props) {
+
+    const lastManga = fetchedManga[fetchedManga.length - 1]
+
     return (
         <div className="transition_screen end">
             <div className="end"><div className="overlay"></div></div>
             <h1>Game Over</h1>
+            <h5>Learn more about
+                <br></br>
+                <a target={"_blank"} rel="noreferrer" href={"https://myanimelist.net/manga/".concat(mList[lastManga].databaseID)}>{mList[lastManga].name}</a>
+            </h5>
             <div className="flex">
                 <h2>Final Score: {props.score}</h2>
                 <h2>High Score: {props.highScore}</h2>
@@ -190,8 +205,13 @@ function MangaDisplay(props) {
 function MangaContainer(props) {
     const [order, setOrder] = React.useState([0,1,2,3])
     const [stylePos, setStylePos] = React.useState(["pos_0", "pos_1", "pos_2", "pos_3"])
-    const [mList, setMList] = React.useState([{}, fetchManga(), fetchManga(), {}])
+    const [mList, setMList] = React.useState([{}, {}, {}, {}])
     const [animateButton, setAnimateButton] = React.useState(false)
+
+    //Inital fetchManga() is only called when first started
+    React.useEffect(() => {
+        setMList([{}, fetchManga(), fetchManga(), {}])
+    }, []);
 
     function determineNewManga(prevMList){
         let mangaArr = prevMList
@@ -272,9 +292,10 @@ function App(){
     const [score, setScore] = React.useState(0)
     const [highScore, setHighScore] = React.useState(0)
     const [metricToggle, setMetricToggle] = React.useState(false)
-    
+
     function startGame(){
         setScore(0)
+        fetchedManga = []
         setAppState(1)
     }
 

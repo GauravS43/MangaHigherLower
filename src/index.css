@@ -146,12 +146,19 @@ a:hover{
 }
 
 .end h1{
-    font-size: 200px;
+    font-size: 150px;
+    top: 5%;
+}
+
+.end h5{
+    position: absolute;
+    top: 22%;
+    text-align: center;
 }
 
 .end .flex{
   position: absolute;  
-  top: 30%;
+  top: 17%;
 }
 
 .flex{
