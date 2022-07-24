@@ -242,7 +242,7 @@ function MangaContainer(props) {
     }
 
     return (
-        <div>
+        <div className="container">
             <MangaDisplay 
                 id={0} 
                 mList = {mList[0]}

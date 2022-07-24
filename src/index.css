@@ -421,16 +421,18 @@ a:hover{
     /*------ START & END SCREEN ------*/
     
     .transition_screen h1{
-        top: 20%;
+        top: 10%;
         font-size: 40px;
         line-height: 100%;
     }
 
     h5{
+        top: 15%;
         font-size: 20px;
     }
 
     .metric_toggle{
+        top: 40%;
         width: 100%;
         flex-direction: column;
     }
@@ -458,13 +460,25 @@ a:hover{
         background-position: 55% 0;
     }
 
+    .end h1{
+        font-size: 60px;
+        top: 6%;
+    }
+
     .end h2{
         font-size: 35px;
         padding: 10px;
     }
 
     .end .flex{
+        top: 14%;
         flex-direction: column;
+    }
+
+    .bg_Manga{
+        width: 75%;
+        height: 13%;
+        margin: 10px;
     }
 
     /*------ MANGA GAME ------*/
@@ -518,9 +532,14 @@ a:hover{
         margin-left: 2px;
     }
 
-    .bg_Manga{
-        width: 75%;
-        height: 13%;
-        margin: 10px;
+    .container .credits{
+        font-size: 20px;
+        top: 2%;
+        text-align: left;
+        height: fit-content;
+    }
+
+    .transition_screen .credits{
+        bottom: 0%;
     }
 }
