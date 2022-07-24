@@ -58,6 +58,16 @@ button:hover{
     background-color: white;
     color: black;
 }
+
+a{
+    color: #55aaff;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
 /*---------------- START SCREEN & END SCREEN ----------------*/
 
 .transition_screen{
@@ -73,6 +83,16 @@ button:hover{
     width: 100%;
     font-size: 90px;
 }
+
+.transition_screen h1 em{
+    font-style: normal;
+    color: #ff0000;
+}
+
+.transition_screen h1 em:nth-child(2){
+    color: #39ff14;
+}
+
 
 .transition_screen h5{
     text-align: center;
@@ -207,6 +227,7 @@ button:hover{
 }
 
 .ani_metric_text{
+    color:rgb(253,255,118);
     width: 100%;
     height: 115px;
     text-align: center;   
@@ -216,6 +237,7 @@ button:hover{
 }
 
 .metric_text{
+    color: rgb(253,255,118);
     width: 100%;
     height: 115px;
     text-align: center;   

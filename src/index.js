@@ -93,10 +93,10 @@ function StartScreen(props){
     return (
         <div className="transition_screen">
             <MangaWallpaper/>
-            <h1>Manga <br></br> Higher Or Lower</h1>
-            <h5>Based off The Higher or Lower Game.
-                 <br></br> 
-                Made in React with data web scraped from MyAnimeList in July 2022.
+            <h1>Manga <br></br> <em>Higher</em> Or <em>Lower</em></h1>
+            <h5>Based off <a target={"_blank"} rel="noreferrer" href="http://www.higherlowergame.com/">The Higher or Lower Game.</a>
+                <br></br> 
+                Made in React with data web scraped from <a target={"_blank"} rel="noreferrer" href="https://myanimelist.net/topmanga.php?type=bypopularity">MyAnimeList</a> in July 2022.
             </h5>
             <div className="metric_toggle">
                 <button className={props.metricToggle ? "" : "selected"} onClick={() => props.setMetricToggle(false)}>
@@ -109,7 +109,7 @@ function StartScreen(props){
             <div className="button_container">
                 <button onClick={props.handleClick}>Start Game</button>
             </div>
-            <h4 className="credits">Made by Gaurav Sharma</h4>
+            <h4 className="credits">Made by <a target={"_blank"} rel="noreferrer" href="https://github.com/GauravS43/manga_higher_lower">Gaurav Sharma</a></h4>
         </div>
     )
 }
@@ -127,6 +127,7 @@ function EndScreen(props) {
                 <button onClick={props.startGame}>Replay</button>
                 <button onClick={props.returnToMenu}>Menu</button>
             </div>
+            <h4 className="credits">Made by <a target={"_blank"} rel="noreferrer" href="https://github.com/GauravS43/manga_higher_lower">Gaurav Sharma</a></h4>
         </div>
     )
 }
@@ -261,6 +262,7 @@ function MangaContainer(props) {
             </div>
             <h4 className="highscore">High Score: {props.highScore}</h4>
             <h4 className="score">Score: {props.score}</h4>
+            <h4 className="credits">Data sourced from <a target={"_blank"} rel="noreferrer" href="https://myanimelist.net/topmanga.php?type=bypopularity">MyAnimeList</a></h4>
         </div>
     )
 }
