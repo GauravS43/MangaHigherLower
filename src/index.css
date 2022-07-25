@@ -12,6 +12,10 @@ html{
     font-family: 'Kanit', sans-serif;
 }
 
+.wrapper{
+    overflow: hidden;
+}
+
 h1{
     width: 100%;
     text-align: center;
