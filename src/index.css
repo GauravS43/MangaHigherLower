@@ -8,11 +8,13 @@
 
 html{
     background-color: black;
-    overflow: hidden;
     font-family: 'Kanit', sans-serif;
 }
 
 .wrapper{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
 }
 

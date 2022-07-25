@@ -43,30 +43,21 @@ function fetchManga(){
 }
 
 function MangaColumn(props){
-    function fetchImage(){
-        return mList[Math.round(Math.random() * 500)].image
+    let column1 = []
+    let column2 = []
+    for (let i = 0; i<5; i++){
+        column1.push(<img className="bg_manga" src={mList[Math.round(Math.random() * 500)].image} alt="cover"/>)
+        column2.push(<img className="bg_manga" src={mList[Math.round(Math.random() * 500)].image} alt="cover"/>)
     }
-
     return(
         <div className="flex">
             <div className="manga_column">
-                <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                {props.isMobile && <img className="bg_manga" src={fetchImage()} alt="cover"/>}
+                {column1}
             </div>
             <div className="manga_column" style={{marginTop: props.isMobile ? "" : "-100px"}}>
-            <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                <img className="bg_manga" src={fetchImage()} alt="cover"/>
-                {props.isMobile && <img className="bg_manga" src={fetchImage()} alt="cover"/>}
+                {column2}
             </div>
         </div>
-
     )
 }
 
@@ -314,7 +305,7 @@ function App(){
     }
 
     return(
-        <div className="wrapper">
+        <div className={appState !== 2 ? "wrapper" : "" }>
             {appState === 0 && <StartScreen metricToggle={metricToggle} setMetricToggle={setMetricToggle} handleClick={startGame} />}
             {appState === 1 && <MangaContainer metricToggle={metricToggle} score={score} highScore={highScore} handleLoss={handleLoss} handleScore={updateScore}/>}
             {appState === 2 && <EndScreen score={score} highScore={highScore} startGame={startGame} returnToMenu={returnToMenu}/>}
