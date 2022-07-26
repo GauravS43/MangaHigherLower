@@ -304,6 +304,15 @@ function App(){
         if (score + 1 > highScore) setHighScore(score + 1)
     }
 
+    fetch("https://mangahlapi.herokuapp.com/manga/?manga=123", {mode: 'no-cors'})
+        .then(res => res.json())
+        .then(data => console.log(data))
+
+
+    fetch("https://mangahlapi.herokuapp.com/manga/?manga=123")
+        .then(res => res.json())
+        .then(data => console.log(data))
+
     return(
         <div className={appState !== 2 ? "wrapper" : "" }>
             {appState === 0 && <StartScreen metricToggle={metricToggle} setMetricToggle={setMetricToggle} handleClick={startGame} />}
