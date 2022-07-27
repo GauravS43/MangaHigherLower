@@ -313,7 +313,7 @@ function App(){
                 setAppState(1)
             })
     }, [])
-
+    console.log(mData)
     return (
         <div className={appState !== 2 ? "wrapper" : "" }>
             {appState === 0 && <div className="loading"></div>}
