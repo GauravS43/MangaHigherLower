@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 import './index.css'
 import mList from "./manga_data/manga.js"
+import axios from 'axios'
 
 //default mod returns negative num
 function mod(n, m) {
@@ -287,11 +288,11 @@ function App(){
     function startGame(){
         setScore(0)
         fetchedManga = []
-        setAppState(1)
+        setAppState(2)
     }
 
     function returnToMenu(){
-        setAppState(0)
+        setAppState(1)
     }
 
     //delay needed for incrementing metric animation to finish
@@ -304,20 +305,21 @@ function App(){
         if (score + 1 > highScore) setHighScore(score + 1)
     }
 
-    fetch("https://mangahlapi.herokuapp.com/manga/?manga=123", {mode: 'no-cors'})
-        .then(res => res.json())
-        .then(data => console.log(data))
+    const [mData, setMData] = React.useState(null)
+    React.useEffect(() => {
+        axios.get("https://mangahlapi.herokuapp.com/")
+            .then(res => {
+                setMData(res.data)
+                setAppState(1)
+            })
+    }, [])
 
-
-    fetch("https://mangahlapi.herokuapp.com/manga/?manga=123")
-        .then(res => res.json())
-        .then(data => console.log(data))
-
-    return(
+    return (
         <div className={appState !== 2 ? "wrapper" : "" }>
-            {appState === 0 && <StartScreen metricToggle={metricToggle} setMetricToggle={setMetricToggle} handleClick={startGame} />}
-            {appState === 1 && <MangaContainer metricToggle={metricToggle} score={score} highScore={highScore} handleLoss={handleLoss} handleScore={updateScore}/>}
-            {appState === 2 && <EndScreen score={score} highScore={highScore} startGame={startGame} returnToMenu={returnToMenu}/>}
+            {appState === 0 && <div className="loading"></div>}
+            {appState === 1 && <StartScreen metricToggle={metricToggle} setMetricToggle={setMetricToggle} handleClick={startGame} />}
+            {appState === 2 && <MangaContainer metricToggle={metricToggle} score={score} highScore={highScore} handleLoss={handleLoss} handleScore={updateScore}/>}
+            {appState === 3 && <EndScreen score={score} highScore={highScore} startGame={startGame} returnToMenu={returnToMenu}/>}
         </div>
     )
 }
