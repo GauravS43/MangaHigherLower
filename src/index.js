@@ -1,7 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import './index.css'
-import mList from "./manga_data/manga.js"
 import axios from 'axios'
 
 //default mod returns negative num
@@ -23,7 +22,7 @@ class Manga{
 
 let fetchedManga = []
 
-function fetchManga(){
+function fetchManga(mangaArr){
     let r = 0
     do {
         r = Math.round(Math.random() * 1999)
@@ -31,14 +30,14 @@ function fetchManga(){
     fetchedManga.push(r)
     return (
         new Manga( 
-            mList[r].name, 
-            mList[r].members,
-            mList[r].score,
+            mangaArr[r].name, 
+            mangaArr[r].members,
+            mangaArr[r].score,
             //scraped data stores members & score as strings
-            parseFloat((mList[r].members).replace(/,/g, '')),
-            parseFloat((mList[r].score).replace(/\./g, '')),
-            mList[r].image,
-            mList[r].databaseID
+            parseFloat((mangaArr[r].members).replace(/,/g, '')),
+            parseFloat((mangaArr[r].score).replace(/\./g, '')),
+            mangaArr[r].image,
+            mangaArr[r].databaseID
         )
     )
 }
@@ -47,8 +46,8 @@ function MangaColumn(props){
     let column1 = []
     let column2 = []
     for (let i = 0; i<5; i++){
-        column1.push(<img className="bg_manga" src={mList[Math.round(Math.random() * 500)].image} alt="cover"/>)
-        column2.push(<img className="bg_manga" src={mList[Math.round(Math.random() * 500)].image} alt="cover"/>)
+        column1.push(<img className="bg_manga" src={props.mData[Math.round(Math.random() * 500)].image} alt="cover"/>)
+        column2.push(<img className="bg_manga" src={props.mData[Math.round(Math.random() * 500)].image} alt="cover"/>)
     }
     return(
         <div className="flex">
@@ -62,7 +61,7 @@ function MangaColumn(props){
     )
 }
 
-function MangaWallpaper(){
+function MangaWallpaper(props){
     const [width, setWidth] = React.useState(window.innerWidth);
     const isMobile = (width <= 768);
 
@@ -80,11 +79,11 @@ function MangaWallpaper(){
     return (
         <div className="background">
             <div className="overlay"></div>
-            <MangaColumn isMobile = {isMobile}/>
-            <MangaColumn isMobile = {isMobile}/>
-            {!isMobile && <MangaColumn/>}
-            {!isMobile && <MangaColumn/>}
-            {!isMobile && <MangaColumn/>}
+            <MangaColumn isMobile = {isMobile} mData = {props.mData}/>
+            <MangaColumn isMobile = {isMobile} mData = {props.mData}/>
+            {!isMobile && <MangaColumn mData = {props.mData}/>}
+            {!isMobile && <MangaColumn mData = {props.mData}/>}
+            {!isMobile && <MangaColumn mData = {props.mData}/>}
         </div>
     )
 }
@@ -92,7 +91,7 @@ function MangaWallpaper(){
 function StartScreen(props){
     return (
         <div className="transition_screen">
-            <MangaWallpaper/>
+            <MangaWallpaper mData={props.mData}/>
             <h1>Manga <br></br> <em>Higher</em> Or <em>Lower</em></h1>
             <h5>Based off <a target={"_blank"} rel="noreferrer" href="http://www.higherlowergame.com/">The Higher or Lower Game.</a>
                 <br></br> 
@@ -124,7 +123,7 @@ function EndScreen(props) {
             <h1>Game Over</h1>
             <h5>Learn more about
                 <br></br>
-                <a target={"_blank"} rel="noreferrer" href={"https://myanimelist.net/manga/".concat(mList[lastManga].databaseID)}>{mList[lastManga].name}</a>
+                <a target={"_blank"} rel="noreferrer" href={"https://myanimelist.net/manga/".concat(props.mData[lastManga].databaseID)}>{props.mData[lastManga].name}</a>
             </h5>
             <div className="flex">
                 <h2>Final Score: {props.score}</h2>
@@ -202,12 +201,12 @@ function MangaContainer(props) {
 
     //Inital fetchManga() is only called when first started
     React.useEffect(() => {
-        setMList([{}, fetchManga(), fetchManga(), {}])
-    }, []);
+        setMList([{}, fetchManga(props.mData), fetchManga(props.mData), {}])
+    }, [props.mData]);
 
     function determineNewManga(prevMList){
         let mangaArr = prevMList
-        mangaArr[mod(order[3], 4)] = fetchManga()
+        mangaArr[mod(order[3], 4)] = fetchManga(props.mData)
         return mangaArr
     }
 
@@ -297,7 +296,7 @@ function App(){
 
     //delay needed for incrementing metric animation to finish
     function handleLoss(){
-        setTimeout(() => setAppState(2), 1000)
+        setTimeout(() => setAppState(3), 1000)
     }
 
     function updateScore(){
@@ -313,13 +312,13 @@ function App(){
                 setAppState(1)
             })
     }, [])
-    console.log(mData)
+
     return (
-        <div className={appState !== 2 ? "wrapper" : "" }>
+        <div className={appState !== 3 ? "wrapper" : "" }>
             {appState === 0 && <div className="loading"></div>}
-            {appState === 1 && <StartScreen metricToggle={metricToggle} setMetricToggle={setMetricToggle} handleClick={startGame} />}
-            {appState === 2 && <MangaContainer metricToggle={metricToggle} score={score} highScore={highScore} handleLoss={handleLoss} handleScore={updateScore}/>}
-            {appState === 3 && <EndScreen score={score} highScore={highScore} startGame={startGame} returnToMenu={returnToMenu}/>}
+            {appState === 1 && <StartScreen mData={mData} metricToggle={metricToggle} setMetricToggle={setMetricToggle} handleClick={startGame} />}
+            {appState === 2 && <MangaContainer mData={mData} metricToggle={metricToggle} score={score} highScore={highScore} handleLoss={handleLoss} handleScore={updateScore}/>}
+            {appState === 3 && <EndScreen mData={mData} score={score} highScore={highScore} startGame={startGame} returnToMenu={returnToMenu}/>}
         </div>
     )
 }
