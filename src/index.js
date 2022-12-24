@@ -33,7 +33,7 @@ function App() {
 
     const [mData, setMData] = React.useState(null)
     React.useEffect(() => {
-        axios.get("http://gauravs43.pythonanywhere.com/")
+        axios.get("https://gauravs43.pythonanywhere.com/")
             .then(res => {
                 setMData(res.data)
                 setAppState(1)
