@@ -55,6 +55,12 @@ function StartScreen(props) {
                 <br></br>
                 Made in React with data web scraped from <a target={"_blank"} rel="noreferrer" href="https://myanimelist.net/topmanga.php?type=bypopularity">MyAnimeList</a> in December 2022.
             </h5>
+            <div className="difficulty_toggle">
+                <button className={props.numManga === 100 ? "selected" : ""} onClick={() => props.changeDifficulty(0)}> Easy </button>
+                <button className={props.numManga === 1000 ? "selected" : ""} onClick={() => props.changeDifficulty(1)}> Medium </button>
+                <button className={props.numManga === 1999 ? "selected" : ""} onClick={() => props.changeDifficulty(2)}> Hard </button>
+
+            </div>
             <div className="metric_toggle">
                 <button className={props.metricToggle ? "" : "selected"} onClick={() => props.setMetricToggle(false)}>
                     Popularity

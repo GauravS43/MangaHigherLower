@@ -1,4 +1,4 @@
-class Manga{
+class Manga {
     constructor(name, memberStr, scoreStr, members, score, image, databaseID) {
         this.name = name
         this.memberStr = memberStr
@@ -12,15 +12,16 @@ class Manga{
 
 let fetchedManga = []
 
-function fetchManga(mangaArr){
+//harder difficulties include more obscure manga
+function fetchManga(mangaArr, numManga) {
     let r = 0
     do {
-        r = Math.round(Math.random() * 1999)
+        r = Math.round(Math.random() * numManga)
     } while (fetchedManga.includes(r))
     fetchedManga.push(r)
     return (
-        new Manga( 
-            mangaArr[r].name, 
+        new Manga(
+            mangaArr[r].name,
             mangaArr[r].members,
             mangaArr[r].score,
             //scraped data stores members & score as strings
@@ -32,4 +33,4 @@ function fetchManga(mangaArr){
     )
 }
 
-export {fetchedManga, fetchManga}
+export { fetchedManga, fetchManga }
