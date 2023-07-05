@@ -3,7 +3,7 @@ import { fetchedManga } from "./MangaObj"
 
 function EndScreen(props) {
     const lastManga = fetchedManga[fetchedManga.length - 1]
-    
+
     return (
         <div className="transition_screen end">
             <div className="end"><div className="overlay"></div></div>
@@ -25,4 +25,4 @@ function EndScreen(props) {
     )
 }
 
-export {EndScreen}
+export { EndScreen }

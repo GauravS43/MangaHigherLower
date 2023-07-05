@@ -4,8 +4,8 @@ function MangaColumn(props) {
     let column1 = []
     let column2 = []
     for (let i = 0; i < 5; i++) {
-        column1.push(<img className="bg_manga" src={props.mData[Math.round(Math.random() * 500)].image} alt="cover" />)
-        column2.push(<img className="bg_manga" src={props.mData[Math.round(Math.random() * 500)].image} alt="cover" />)
+        column1.push(<img className="bg_manga" src={props.mData[Math.round(Math.random() * props.numManga)].image} alt="." />)
+        column2.push(<img className="bg_manga" src={props.mData[Math.round(Math.random() * props.numManga)].image} alt="." />)
     }
     return (
         <div className="flex">
@@ -37,11 +37,11 @@ function MangaWallpaper(props) {
     return (
         <div className="background">
             <div className="overlay"></div>
-            <MangaColumn isMobile={isMobile} mData={props.mData} />
-            <MangaColumn isMobile={isMobile} mData={props.mData} />
-            {!isMobile && <MangaColumn mData={props.mData} />}
-            {!isMobile && <MangaColumn mData={props.mData} />}
-            {!isMobile && <MangaColumn mData={props.mData} />}
+            <MangaColumn isMobile={isMobile} mData={props.mData} numManga={props.numManga} />
+            <MangaColumn isMobile={isMobile} mData={props.mData} numManga={props.numManga} />
+            {!isMobile && <MangaColumn mData={props.mData} numManga={props.numManga} />}
+            {!isMobile && <MangaColumn mData={props.mData} numManga={props.numManga} />}
+            {!isMobile && <MangaColumn mData={props.mData} numManga={props.numManga} />}
         </div>
     )
 }
@@ -49,7 +49,7 @@ function MangaWallpaper(props) {
 function StartScreen(props) {
     return (
         <div className="transition_screen">
-            <MangaWallpaper mData={props.mData} />
+            <MangaWallpaper mData={props.mData} numManga={props.numManga} />
             <h1>Manga <br></br> <em>Higher</em> Or <em>Lower</em></h1>
             <h5>Based off <a target={"_blank"} rel="noreferrer" href="http://www.higherlowergame.com/">The Higher or Lower Game.</a>
                 <br></br>

@@ -14,6 +14,11 @@ let fetchedManga = []
 
 //harder difficulties include more obscure manga
 function fetchManga(mangaArr, numManga) {
+    //resets if 90% of manga in difficulty have been chosen
+    if (fetchedManga.length / numManga > 0.9) {
+        fetchedManga = []
+    }
+
     let r = 0
     do {
         r = Math.round(Math.random() * numManga)
